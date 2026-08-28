@@ -6,7 +6,7 @@
 - 账号：`goldencorn1`
 - 默认分支：`main`
 - 功能最终提交：`8a2831a`（完整 SHA：`8a2831aa967e5588a5ccbeb99c67740b65c7c679`）
-- 当前 `main` 提交（含本交接文档）：`bb2bbaf`（完整 SHA：`bb2bbaf9d36c3afc246b39ba53568b5fe6a57ec5`）
+- 当前 `main`：包含以上功能与交接材料；后续状态以仓库默认分支页面为准。
 - 仓库可见性：Public
 - 项目截图已放入 `assets/demo/`
 - 公开展示说明见 `docs/GITHUB_SHOWCASE.md`
