@@ -1,0 +1,75 @@
+{
+  "config": {
+    "dataset_version": "ecommerce-eval-v1",
+    "dataset_path": "data/evaluation/ecommerce_cases.jsonl",
+    "dataset_sha256": "d10092152689082e210a551dd3ddbb1487d45849516df22d6e8e3b97c7172087",
+    "mode": "mock",
+    "model": "mock",
+    "search_provider": "mock",
+    "runner": "src.evaluation.a3_runner.run_a3_evaluation",
+    "run_started_at": "2026-08-17T09:00:31.639140+00:00",
+    "run_completed_at": "2026-08-17T09:00:32.380323+00:00",
+    "external_request_count": 0,
+    "total_cost_usd": 0,
+    "total_token_count": 0,
+    "human_review_sample_count": 10
+  },
+  "summary": {
+    "measured": "measured",
+    "total_case_count": 50,
+    "measured_case_count": 50,
+    "success_rate": 1,
+    "degraded_case_count": 8,
+    "degradation_pass_rate": 1,
+    "average_latency_ms": 14.6979,
+    "average_warning_count": 0.52,
+    "judge_average_score": 79.5994,
+    "judge_dimension_averages": {
+      "commercial_boundary": 73.96,
+      "competitor": 73.6302,
+      "customer": 94,
+      "evidence_quality": 90.84,
+      "market": 58.8,
+      "price": 96,
+      "risk": 70.5
+    },
+    "judge_human_review_count": 8,
+    "latency_p50_ms": 7.7251,
+    "latency_p95_ms": 9.4743,
+    "latency_p99_ms": 354.9585,
+    "total_warning_count": 26,
+    "metric_averages": {
+      "category_relevance": 0.97,
+      "degradation_warning_quality": 1,
+      "evidence_coverage": 0.9753,
+      "report_completeness": 0.9933,
+      "score_validity": 1,
+      "structured_output_validity": 1
+    },
+    "metric_pass_rates": {
+      "category_relevance": 0.98,
+      "degradation_warning_quality": 1,
+      "evidence_coverage": 0.96,
+      "report_completeness": 0.98,
+      "score_validity": 1,
+      "structured_output_validity": 1
+    },
+    "scenario_tag_counts": {
+      "a3-boundary-budget": 3,
+      "a3-commercial-verification-incomplete": 1,
+      "a3-low-evidence": 3,
+      "a3-module-degradation": 8,
+      "a3-normal": 35,
+      "a3-price-missing": 1,
+      "a3-private-knowledge-hit": 1,
+      "a3-private-knowledge-miss": 1,
+      "a3-search-degradation": 8
+    },
+    "mode": "mock",
+    "model_status": "not_used",
+    "search_status": "mock",
+    "total_external_request_count": 0,
+    "total_cost_usd": 0,
+    "total_token_count": 0
+  }
+}

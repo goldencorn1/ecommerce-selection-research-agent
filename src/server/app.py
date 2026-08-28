@@ -364,10 +364,6 @@ async def ecommerce_workspace_auth(request, call_next):
     """Optionally enforce signed workspace tokens on stateful ecommerce APIs."""
 
     path = request.url.path
-    # Keep the dependency-free demo entrypoint available even when a deployment
-    # or test harness changes the route table after module import.
-    if path in {"/ecommerce", "/ecommerce/"}:
-        return HTMLResponse(content=ECOMMERCE_FALLBACK_HTML)
     public_path = path in _ECOMMERCE_PUBLIC_PATHS and not (
         path == "/api/ecommerce/session" and bearer_auth_required()
     )
