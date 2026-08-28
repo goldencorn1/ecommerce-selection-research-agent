@@ -2,42 +2,36 @@
 
 ## 当前状态
 
-- 本地公开发布提交：`8b0523a`（`main`）
-- 上游远程：`upstream` → `https://github.com/bytedance/deer-flow.git`
+- 公开仓库：<https://github.com/goldencorn1/ecommerce-selection-research-agent>
+- 账号：`goldencorn1`
+- 默认分支：`main`
+- 最终公开提交：`8a2831a`（完整 SHA：`8a2831aa967e5588a5ccbeb99c67740b65c7c679`）
+- 仓库可见性：Public
 - 项目截图已放入 `assets/demo/`
 - 公开展示说明见 `docs/GITHUB_SHOWCASE.md`
-- `.env`、`conf.yaml`、SQLite、本地浏览器历史、临时目录和填好版个人提交文档未进入提交
+- 脱敏后的评测摘要已放入 `artifacts/evaluation/ecommerce-eval-v1-summary.json`
 
-## 唯一未完成项
+## 验证结果
 
-当前机器没有 GitHub CLI 登录态，且设备登录接口被网络层阻断，因此无法代替用户完成账号认证、创建个人仓库和推送。项目代码与发布材料已经在本地提交并通过检查。
+最终提交对应的 GitHub Actions 已全部通过：
 
-## 登录后自动上传
+- Test Cases Check：通过（1431 passed，4 skipped）
+- Lint Check：通过
+- Publish Containers：通过
 
-在项目根目录执行一次：
+本地验证也已完成：定向电商测试 9/9 通过，全量测试 1431 passed、4 skipped。
 
-```powershell
-gh auth login --hostname github.com --git-protocol https --web
-```
+## 公开发布边界
 
-完成登录后，继续执行以下命令：
+没有上传 `.env`、`conf.yaml`、SQLite、本地浏览器历史、临时目录、真实 API Key，以及含个人信息的填好版 DOCX/PDF。未上传的大型评测明细和内部工作记录也不影响公开 Demo；保留了运行所需的代码、锁文件、截图、公开说明和脱敏评测摘要。
 
-```powershell
-$repo = "ecommerce-selection-research-agent"
-$owner = gh api user --jq .login
-gh repo create "$owner/$repo" --public --description "可追溯、可验证的电商选品研究工作台" --source . --remote origin
-git push -u origin main
-gh repo edit "$owner/$repo" --add-topic langgraph --add-topic deep-research --add-topic ecommerce --add-topic product-research --add-topic nextjs --add-topic fastapi --add-topic docker
-gh release create v1.0.0-demo --repo "$owner/$repo" --title "v1.0.0-demo · 选品研判台 Demo Final" --notes-file docs/FINAL_DEMO_RUNBOOK_2026-08-18.md
-gh repo view "$owner/$repo" --web
-```
+## 使用方式
 
-## 上传后检查
+在 GitHub 仓库首页查看 README、`assets/demo/` 和 `docs/GITHUB_SHOWCASE.md`。Windows 本地演示可双击仓库根目录的 `start_ecommerce_mock.bat`，然后打开 `http://127.0.0.1:3000/ecommerce`；Docker 方式见 `docker-compose.demo.yml` 和 `docs/ecommerce-deployment.md`。
 
-```powershell
-gh repo view "$owner/$repo" --json nameWithOwner,isPrivate,defaultBranchRef,url
-gh run list --repo "$owner/$repo" --limit 5
-git status --short --branch
-```
+项目默认使用 Mock/Demo 数据，不需要真实商业 API；有合法授权的用户可以在 Web 页面配置自己的模型、搜索和商品数据服务。
 
-公开仓库首页优先查看 README、`assets/demo/` 和 `docs/GITHUB_SHOWCASE.md`。不要把填好个人信息的 DOCX/PDF、真实 API Key 或本地数据库追加到仓库。
+## 后续可选动作
+
+Topics、`v1.0.0-demo` Release 和 GitHub Pages 展示页属于可选的仓库装修项，不影响当前代码上传、CI 验证和 Demo 使用。
+
