@@ -1,0 +1,66 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: deer-flow-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./conf.yaml:/app/conf.yaml:ro
+      - ./artifacts:/app/artifacts
+    environment:
+      APP_ENV: demo
+      DEBUG: "false"
+      ECOMMERCE_AUTH_MODE: anonymous_local
+      ECOMMERCE_WORKSPACE_TOKEN_SECRET: ""
+      ECOMMERCE_REQUIRE_WORKSPACE_TOKEN: "false"
+      ECOMMERCE_WORKSPACE_TOKEN_TTL: "86400"
+      ECOMMERCE_REQUIRE_BEARER_AUTH: "false"
+      ECOMMERCE_JWT_HS256_SECRET: ""
+      ECOMMERCE_JWT_ISSUER: ""
+      ECOMMERCE_JWT_AUDIENCE: ""
+      ECOMMERCE_BEARER_PROVIDER: hs256
+      ECOMMERCE_OIDC_ISSUER: ""
+      ECOMMERCE_OIDC_AUDIENCE: ""
+      ECOMMERCE_OIDC_JWKS_URL: ""
+      ECOMMERCE_OIDC_ALGORITHMS: RS256
+      ECOMMERCE_POSTGRES_DSN: ""
+      ECOMMERCE_AUTHORIZED_DATA_FILE: ""
+      ECOMMERCE_HISTORY_DB: /app/artifacts/ecommerce/web-history.sqlite3
+      SEARCH_API: tavily
+      TAVILY_API_KEY: ""
+      DEEPSEEK_API_KEY: ""
+      INFOQUEST_API_KEY: ""
+    restart: unless-stopped
+    networks:
+      - deer-flow-demo-network
+
+  frontend:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000/api
+    container_name: deer-flow-frontend
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "/nodejs/bin/node", "-e", "require('http').get('http://' + require('os').hostname() + ':3000/ecommerce', response => process.exit(response.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: http://localhost:8000/api
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - deer-flow-demo-network
+
+networks:
+  deer-flow-demo-network:
+    driver: bridge

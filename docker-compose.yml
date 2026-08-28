@@ -1,0 +1,47 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: deer-flow-backend
+    # Remove the ports section to not expose to host
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./conf.yaml:/app/conf.yaml:ro
+      - ./artifacts:/app/artifacts
+    environment:
+      ECOMMERCE_HISTORY_DB: /app/artifacts/ecommerce/web-history.sqlite3
+    restart: unless-stopped
+    networks:
+      - deer-flow-network
+
+  frontend:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000/api}
+    container_name: deer-flow-frontend
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "/nodejs/bin/node", "-e", "require('http').get('http://' + require('os').hostname() + ':3000/ecommerce', response => process.exit(response.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    env_file:
+      - .env
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - deer-flow-network
+
+networks:
+  deer-flow-network:
+    driver: bridge

@@ -1,0 +1,61 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.coverage
+.coverage.*
+agent_history.gif
+static/browser_history/*.gif
+
+# Virtual environments
+.venv
+venv/
+
+# Environment variables
+.env
+
+# user conf
+conf.yaml
+
+.idea/
+.langgraph_api/
+.DS_Store
+
+# coverage report
+coverage.xml
+coverage/
+
+# Temporary PPT content files
+ppt_content_*.md
+
+# Local runtime, browser and test artifacts
+tmp/
+.playwright-cli/
+.pytest_cache/
+.ruff_cache/
+*.tsbuildinfo
+*.log
+
+# Local databases and generated run history
+*.sqlite3
+*.sqlite3-*
+*.db
+artifacts/ecommerce/
+artifacts/archive/
+artifacts/c2/
+artifacts/c3/
+artifacts/c4/
+artifacts/c5/
+artifacts/p3/
+artifacts/ppt/
+artifacts/evaluation/a4/
+github-research-output/
+
+# Private submission files and filled-in personal documents
+docs/archive/
+docs/*产品设计说明书*.docx
+docs/*产品需求*.docx
+docs/PRODUCT_REQUIREMENTS_D0_*.pdf
