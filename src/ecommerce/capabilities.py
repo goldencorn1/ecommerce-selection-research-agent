@@ -42,6 +42,13 @@ def _basic_model_config() -> dict[str, Any]:
         yaml_config = {}
     merged = {**yaml_config, **_role_env("BASIC")}
     platform = str(merged.get("platform", "")).lower()
+    # A clean checkout does not contain the developer's private ``conf.yaml``.
+    # The provider-level DeepSeek variables are already the documented
+    # request-time configuration, so use them as a complete DeepSeek preset
+    # when no role-level platform was supplied.
+    if not platform and os.getenv("DEEPSEEK_API_KEY"):
+        merged["platform"] = "deepseek"
+        platform = "deepseek"
     if platform in _DEEPSEEK_PLATFORMS:
         provider_env = {
             "api_key": os.getenv("DEEPSEEK_API_KEY", ""),
@@ -385,3 +392,4 @@ def build_ecommerce_capabilities() -> dict[str, Any]:
             "preflight_timeout_seconds": 30,
         },
     }
+

@@ -25,7 +25,13 @@ class EvidenceProvenance(BaseModel):
         parsed = urlparse(value)
         if parsed.scheme in {"http", "https"} and parsed.netloc:
             return value
-        if parsed.scheme in {"mock", "local"} and parsed.netloc:
+        # ``local:///absolute/path`` has an empty netloc by design; the path
+        # itself is the authority for local evidence.  Keep accepting
+        # ``local://workspace/id`` as well so both public URI forms remain
+        # stable across the demo and API adapters.
+        if parsed.scheme in {"mock", "local"} and (
+            parsed.netloc or parsed.path.startswith("/")
+        ):
             return value
         raise ValueError("source must be an absolute http(s), mock://, or local:// source")
 
@@ -39,3 +45,4 @@ class ProvenanceValidation(BaseModel):
     mapped_source_count: int = Field(ge=0)
     missing_evidence_ids: list[str] = Field(default_factory=list)
     invalid_provenance_ids: list[str] = Field(default_factory=list)
+
